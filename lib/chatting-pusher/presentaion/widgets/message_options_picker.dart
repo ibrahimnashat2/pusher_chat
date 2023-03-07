@@ -1,9 +1,9 @@
-import 'package:customer_service/core/extensions.dart';
-import 'package:customer_service/core/widgets/context.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pucher_chat/core/widget/context.dart';
+import 'package:pucher_chat/core/widget/padding.dart';
 
-import '../../../../core/widgets/text.dart';
+import '../../../core/widget/text.dart';
 
 class MessageOptions extends StatelessWidget {
   final Function onDelete;

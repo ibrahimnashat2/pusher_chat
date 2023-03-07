@@ -1,10 +1,11 @@
-import 'package:customer_service/core/extensions.dart';
-import 'package:customer_service/core/widgets/context.dart';
 import 'package:flutter/material.dart';
+import 'package:pucher_chat/core/widget.dart';
+import 'package:pucher_chat/core/widget/context.dart';
+import 'package:pucher_chat/core/widget/padding.dart';
 
-import '../../../../core/consts/colors.dart';
-import '../../../../core/widgets/image.dart';
-import '../../../../core/widgets/text.dart';
+import '../../../core/colors.dart';
+import '../../../core/widget/image.dart';
+import '../../../core/widget/text.dart';
 import '../views/image_viewer_screen.dart';
 
 class OutterImageMessageItem extends StatelessWidget {

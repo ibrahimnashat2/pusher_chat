@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'package:pusher_beams/pusher_beams.dart';
 
-import '../consts/print.dart';
+import '../print.dart';
 import 'consts.dart';
 
 @lazySingleton

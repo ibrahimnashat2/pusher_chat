@@ -1,8 +1,9 @@
-import 'package:customer_service/core/extensions.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/consts/colors.dart';
-import '../../../../core/widgets/text.dart';
-import '/core/widgets/context.dart';
+import 'package:pucher_chat/core/widget/context.dart';
+import 'package:pucher_chat/core/widget/padding.dart';
+
+import '../../../core/colors.dart';
+import '../../../core/widget/text.dart';
 
 class OutterTextMessageItem extends StatelessWidget {
   final String text;

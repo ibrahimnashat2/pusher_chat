@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../consts/print.dart';
+import '../print.dart';
 
 typedef QueryParam<T> = QueryBuilder<T, T, QWhere>;
 typedef QueryReturnType<T> = QueryBuilder<T, T, QAfterFilterCondition>;
