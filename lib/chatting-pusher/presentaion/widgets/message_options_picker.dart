@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pucher_chat/core/widget/context.dart';
-import 'package:pucher_chat/core/widget/padding.dart';
+import 'package:pusher_chat/core/widget/context.dart';
+import 'package:pusher_chat/core/widget/padding.dart';
 
 import '../../../core/widget/text.dart';
 

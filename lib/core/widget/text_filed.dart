@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable, no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
-import 'package:pucher_chat/core/widget/padding.dart';
-import 'package:pucher_chat/core/widget/text.dart';
+import 'package:pusher_chat/core/widget/padding.dart';
+import 'package:pusher_chat/core/widget/text.dart';
 
 import '../colors.dart';
 

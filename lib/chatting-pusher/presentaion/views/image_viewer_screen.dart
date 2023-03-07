@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:pucher_chat/core/widget/padding.dart';
+import 'package:pusher_chat/core/widget/padding.dart';
 
 import '../../../core/colors.dart';
 import '../../../core/widget/buttons.dart';

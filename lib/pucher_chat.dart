@@ -1,4 +1,4 @@
-library pucher_chat;
+library pusher_chat;
 
 import 'chatting-pusher/data/models/chat_message_model.dart';
 import 'chatting-pusher/data/models/chat_room_model.dart';

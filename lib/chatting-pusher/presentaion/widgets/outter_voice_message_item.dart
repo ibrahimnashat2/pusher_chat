@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:pucher_chat/core/widget.dart';
-import 'package:pucher_chat/core/widget/context.dart';
-import 'package:pucher_chat/core/widget/padding.dart';
+import 'package:pusher_chat/core/widget.dart';
+import 'package:pusher_chat/core/widget/context.dart';
+import 'package:pusher_chat/core/widget/padding.dart';
 
 import '../../../core/colors.dart';
 import '../../../core/widget/text.dart';

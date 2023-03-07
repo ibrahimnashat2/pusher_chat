@@ -2,8 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pucher_chat/core/widget.dart';
-import 'package:pucher_chat/core/widget/context.dart';
+import 'package:pusher_chat/core/widget.dart';
+import 'package:pusher_chat/core/widget/context.dart';
 import 'image.dart';
 
 class MBackButton extends StatelessWidget {

@@ -1,9 +1,9 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:pucher_chat/core/colors.dart';
-import 'package:pucher_chat/core/widget/context.dart';
-import 'package:pucher_chat/core/widget/padding.dart';
+import 'package:pusher_chat/core/colors.dart';
+import 'package:pusher_chat/core/widget/context.dart';
+import 'package:pusher_chat/core/widget/padding.dart';
 
 import '../../../core/widget/image.dart';
 import '../../../core/widget/text.dart';

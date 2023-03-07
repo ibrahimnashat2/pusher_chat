@@ -12,42 +12,42 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i5;
-import 'package:pucher_chat/chatting-pusher/data/data_sources/chat_local_data_source.dart'
+import 'package:pusher_chat/chatting-pusher/data/data_sources/chat_local_data_source.dart'
     as _i15;
-import 'package:pucher_chat/chatting-pusher/data/data_sources/chat_remote_data_source.dart'
+import 'package:pusher_chat/chatting-pusher/data/data_sources/chat_remote_data_source.dart'
     as _i16;
-import 'package:pucher_chat/chatting-pusher/data/repository/chat_repostoiry_impl.dart'
+import 'package:pusher_chat/chatting-pusher/data/repository/chat_repostoiry_impl.dart'
     as _i18;
-import 'package:pucher_chat/chatting-pusher/domain/repository/chat_repositroy.dart'
+import 'package:pusher_chat/chatting-pusher/domain/repository/chat_repositroy.dart'
     as _i17;
-import 'package:pucher_chat/chatting-pusher/domain/usecases/delete_message.dart'
+import 'package:pusher_chat/chatting-pusher/domain/usecases/delete_message.dart'
     as _i19;
-import 'package:pucher_chat/chatting-pusher/domain/usecases/disconnect.dart'
+import 'package:pusher_chat/chatting-pusher/domain/usecases/disconnect.dart'
     as _i20;
-import 'package:pucher_chat/chatting-pusher/domain/usecases/get_all_messages.dart'
+import 'package:pusher_chat/chatting-pusher/domain/usecases/get_all_messages.dart'
     as _i21;
-import 'package:pucher_chat/chatting-pusher/domain/usecases/get_all_rooms.dart'
+import 'package:pusher_chat/chatting-pusher/domain/usecases/get_all_rooms.dart'
     as _i22;
-import 'package:pucher_chat/chatting-pusher/domain/usecases/on_listen_pusher.dart'
+import 'package:pusher_chat/chatting-pusher/domain/usecases/on_listen_pusher.dart'
     as _i23;
-import 'package:pucher_chat/chatting-pusher/domain/usecases/online.dart'
+import 'package:pusher_chat/chatting-pusher/domain/usecases/online.dart'
     as _i24;
-import 'package:pucher_chat/chatting-pusher/domain/usecases/save_message.dart'
+import 'package:pusher_chat/chatting-pusher/domain/usecases/save_message.dart'
     as _i25;
-import 'package:pucher_chat/chatting-pusher/domain/usecases/save_room.dart'
+import 'package:pusher_chat/chatting-pusher/domain/usecases/save_room.dart'
     as _i26;
-import 'package:pucher_chat/chatting-pusher/domain/usecases/send_message.dart'
+import 'package:pusher_chat/chatting-pusher/domain/usecases/send_message.dart'
     as _i27;
-import 'package:pucher_chat/chatting-pusher/domain/usecases/typing.dart'
+import 'package:pusher_chat/chatting-pusher/domain/usecases/typing.dart'
     as _i28;
-import 'package:pucher_chat/core/errors/exeption_handler.dart' as _i13;
-import 'package:pucher_chat/core/errors/failure_handler.dart' as _i3;
-import 'package:pucher_chat/core/injection/injectable.dart' as _i29;
-import 'package:pucher_chat/core/isar/isar.dart' as _i6;
-import 'package:pucher_chat/core/network_info.dart' as _i8;
-import 'package:pucher_chat/core/pusher/pusher_channels.dart' as _i14;
-import 'package:pucher_chat/core/pusher/pusher_notificitions.dart' as _i11;
-import 'package:pucher_chat/core/widget/context.dart' as _i7;
+import 'package:pusher_chat/core/errors/exeption_handler.dart' as _i13;
+import 'package:pusher_chat/core/errors/failure_handler.dart' as _i3;
+import 'package:pusher_chat/core/injection/injectable.dart' as _i29;
+import 'package:pusher_chat/core/isar/isar.dart' as _i6;
+import 'package:pusher_chat/core/network_info.dart' as _i8;
+import 'package:pusher_chat/core/pusher/pusher_channels.dart' as _i14;
+import 'package:pusher_chat/core/pusher/pusher_notificitions.dart' as _i11;
+import 'package:pusher_chat/core/widget/context.dart' as _i7;
 import 'package:pusher_beams/pusher_beams.dart' as _i9;
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart'
     as _i10; // ignore_for_file: unnecessary_lambdas
