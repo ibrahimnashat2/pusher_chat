@@ -22,18 +22,6 @@ abstract class InjectionModule {
   InternetConnectionChecker get connectionChecker =>
       InternetConnectionChecker();
 
-  @injectable
-  GlobalKey<NavigatorState> get nav => GlobalKey<NavigatorState>();
-
-  @lazySingleton
-  Random get random => Random();
-
-  @injectable
-  TextEditingController get textEditingController => TextEditingController();
-
-  @injectable
-  ScrollController get scrollController => ScrollController();
-
   @lazySingleton
   PusherChannelsFlutter get pusherChannelsFlutter =>
       PusherChannelsFlutter.getInstance();
