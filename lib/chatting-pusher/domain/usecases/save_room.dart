@@ -14,6 +14,7 @@ class SaveRoom {
   Future<Either<Failure, ChatRoom>> saveRoom({
     String? lastMessage,
     String? lastUpdated,
+    String? lastCustomerService,
     required String roomId,
     required ChatUser user,
   }) async {
@@ -22,6 +23,7 @@ class SaveRoom {
       lastUpdated: lastUpdated,
       roomId: roomId,
       user: user,
+      lastCustomerService: lastCustomerService,
     );
   }
 }

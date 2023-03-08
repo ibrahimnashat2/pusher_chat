@@ -25,6 +25,7 @@ abstract class ChatLocalDataSource {
   Future<ChatRoomModel> saveRoom({
     String? lastMessage,
     String? lastUpdated,
+    String? lastCustomerService,
     required String roomId,
     required ChatUser user,
   });
@@ -96,6 +97,7 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
   Future<ChatRoomModel> saveRoom({
     String? lastMessage,
     String? lastUpdated,
+    String? lastCustomerService,
     required String roomId,
     required ChatUser user,
   }) async {
@@ -110,6 +112,7 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
         roomId: roomId,
         lastMessage: lastMessage,
         lastUpdated: lastUpdated,
+        lastCustomerService: lastCustomerService,
         user: ChatUserModel(
           image: user.image,
           name: user.name,
@@ -123,9 +126,9 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
 
   @override
   Future<List<HistoryModel>> getHistory() async {
-    // return await handler<List<HistoryModel>>(method: () async {
-    return await isaar.getAll<HistoryModel>();
-    //  });
+    return await handler<List<HistoryModel>>(method: () async {
+      return await isaar.getAll<HistoryModel>();
+    });
   }
 
   @override

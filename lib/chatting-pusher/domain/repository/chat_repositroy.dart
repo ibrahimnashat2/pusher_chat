@@ -22,6 +22,7 @@ abstract class ChatRepository {
   Future<Either<Failure, ChatRoom>> saveRoom({
     String? lastMessage,
     String? lastUpdated,
+    String? lastCustomerService,
     required String roomId,
     required ChatUser user,
   });
