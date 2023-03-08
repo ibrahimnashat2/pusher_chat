@@ -37,10 +37,11 @@ const ChatMessageModelSchema = CollectionSchema(
       name: r'roomId',
       type: IsarType.string,
     ),
-    r'senderId': PropertySchema(
+    r'sender': PropertySchema(
       id: 4,
-      name: r'senderId',
-      type: IsarType.long,
+      name: r'sender',
+      type: IsarType.object,
+      target: r'ChatUserModel',
     ),
     r'type': PropertySchema(
       id: 5,
@@ -55,7 +56,7 @@ const ChatMessageModelSchema = CollectionSchema(
   idName: r'id',
   indexes: {},
   links: {},
-  embeddedSchemas: {},
+  embeddedSchemas: {r'ChatUserModel': ChatUserModelSchema},
   getId: _chatMessageModelGetId,
   getLinks: _chatMessageModelGetLinks,
   attach: _chatMessageModelAttach,
@@ -77,6 +78,9 @@ int _chatMessageModelEstimateSize(
   bytesCount += 3 + object.message.length * 3;
   bytesCount += 3 + object.messageId.length * 3;
   bytesCount += 3 + object.roomId.length * 3;
+  bytesCount += 3 +
+      ChatUserModelSchema.estimateSize(
+          object.sender, allOffsets[ChatUserModel]!, allOffsets);
   bytesCount += 3 + object.type.length * 3;
   return bytesCount;
 }
@@ -91,7 +95,12 @@ void _chatMessageModelSerialize(
   writer.writeString(offsets[1], object.message);
   writer.writeString(offsets[2], object.messageId);
   writer.writeString(offsets[3], object.roomId);
-  writer.writeLong(offsets[4], object.senderId);
+  writer.writeObject<ChatUserModel>(
+    offsets[4],
+    allOffsets,
+    ChatUserModelSchema.serialize,
+    object.sender,
+  );
   writer.writeString(offsets[5], object.type);
 }
 
@@ -107,7 +116,12 @@ ChatMessageModel _chatMessageModelDeserialize(
     message: reader.readString(offsets[1]),
     messageId: reader.readString(offsets[2]),
     roomId: reader.readString(offsets[3]),
-    senderId: reader.readLong(offsets[4]),
+    sender: reader.readObjectOrNull<ChatUserModel>(
+          offsets[4],
+          ChatUserModelSchema.deserialize,
+          allOffsets,
+        ) ??
+        ChatUserModel(),
     type: reader.readString(offsets[5]),
   );
   return object;
@@ -129,7 +143,12 @@ P _chatMessageModelDeserializeProp<P>(
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
-      return (reader.readLong(offset)) as P;
+      return (reader.readObjectOrNull<ChatUserModel>(
+            offset,
+            ChatUserModelSchema.deserialize,
+            allOffsets,
+          ) ??
+          ChatUserModel()) as P;
     case 5:
       return (reader.readString(offset)) as P;
     default:
@@ -850,62 +869,6 @@ extension ChatMessageModelQueryFilter
   }
 
   QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterFilterCondition>
-      senderIdEqualTo(int value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'senderId',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterFilterCondition>
-      senderIdGreaterThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'senderId',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterFilterCondition>
-      senderIdLessThan(
-    int value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'senderId',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterFilterCondition>
-      senderIdBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'senderId',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterFilterCondition>
       typeEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1043,7 +1006,14 @@ extension ChatMessageModelQueryFilter
 }
 
 extension ChatMessageModelQueryObject
-    on QueryBuilder<ChatMessageModel, ChatMessageModel, QFilterCondition> {}
+    on QueryBuilder<ChatMessageModel, ChatMessageModel, QFilterCondition> {
+  QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterFilterCondition>
+      sender(FilterQuery<ChatUserModel> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'sender');
+    });
+  }
+}
 
 extension ChatMessageModelQueryLinks
     on QueryBuilder<ChatMessageModel, ChatMessageModel, QFilterCondition> {}
@@ -1103,20 +1073,6 @@ extension ChatMessageModelQuerySortBy
       sortByRoomIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'roomId', Sort.desc);
-    });
-  }
-
-  QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterSortBy>
-      sortBySenderId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'senderId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterSortBy>
-      sortBySenderIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'senderId', Sort.desc);
     });
   }
 
@@ -1205,20 +1161,6 @@ extension ChatMessageModelQuerySortThenBy
     });
   }
 
-  QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterSortBy>
-      thenBySenderId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'senderId', Sort.asc);
-    });
-  }
-
-  QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterSortBy>
-      thenBySenderIdDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'senderId', Sort.desc);
-    });
-  }
-
   QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterSortBy> thenByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
@@ -1263,13 +1205,6 @@ extension ChatMessageModelQueryWhereDistinct
     });
   }
 
-  QueryBuilder<ChatMessageModel, ChatMessageModel, QDistinct>
-      distinctBySenderId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'senderId');
-    });
-  }
-
   QueryBuilder<ChatMessageModel, ChatMessageModel, QDistinct> distinctByType(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1311,9 +1246,10 @@ extension ChatMessageModelQueryProperty
     });
   }
 
-  QueryBuilder<ChatMessageModel, int, QQueryOperations> senderIdProperty() {
+  QueryBuilder<ChatMessageModel, ChatUserModel, QQueryOperations>
+      senderProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'senderId');
+      return query.addPropertyName(r'sender');
     });
   }
 
@@ -1332,7 +1268,7 @@ ChatMessageModel _$ChatMessageModelFromJson(Map<String, dynamic> json) =>
     ChatMessageModel(
       id: json['id'] as int? ?? Isar.autoIncrement,
       message: json['message'] as String,
-      senderId: json['senderId'] as int,
+      sender: ChatUserModel.fromJson(json['sender'] as Map<String, dynamic>),
       type: json['type'] as String,
       roomId: json['roomId'] as String,
       createdAt: json['createdAt'] as String?,
@@ -1342,10 +1278,10 @@ ChatMessageModel _$ChatMessageModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ChatMessageModelToJson(ChatMessageModel instance) =>
     <String, dynamic>{
       'message': instance.message,
-      'senderId': instance.senderId,
       'type': instance.type,
       'messageId': instance.messageId,
       'roomId': instance.roomId,
       'createdAt': instance.createdAt,
       'id': instance.id,
+      'sender': instance.sender,
     };

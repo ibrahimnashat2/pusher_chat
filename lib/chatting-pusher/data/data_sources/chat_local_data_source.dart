@@ -16,7 +16,7 @@ abstract class ChatLocalDataSource {
   Future<List<ChatRoomModel>> getAllRooms();
   Future<Unit> saveMessage({
     required String message,
-    required int senderId,
+    required ChatUserModel sender,
     required String type,
     required String roomId,
     required String messageId,
@@ -63,7 +63,7 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
   @override
   Future<Unit> saveMessage({
     required String message,
-    required int senderId,
+    required ChatUserModel sender,
     required String type,
     required String roomId,
     required String messageId,
@@ -72,7 +72,7 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
       await isaar.writeOrUpdate<ChatMessageModel>(
         object: ChatMessageModel(
           messageId: messageId,
-          senderId: senderId,
+          sender: sender,
           message: message,
           roomId: roomId,
           type: type,

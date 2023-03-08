@@ -27,6 +27,7 @@ class ChatRoomModel extends ChatRoom {
     this.lastUpdated,
     required this.user,
     required super.roomId,
+    super.lastCustomerService,
   }) : super(
           user: user,
           lastMessage: lastMessage,

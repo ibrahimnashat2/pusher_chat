@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 import '../../../../core/errors/failures.dart';
+import '../../data/models/chat_user_model.dart';
 import '../entities/chat_message.dart';
 import '../entities/chat_room.dart';
 import '../entities/chat_user.dart';
@@ -34,14 +35,14 @@ abstract class ChatRepository {
   });
   Future<Either<Failure, ChatMessage>> sendMessage({
     required dynamic message,
-    required int senderId,
+    required ChatUserModel sender,
     required String type,
     required String roomId,
     required String messageId,
   });
   Future<Either<Failure, Unit>> saveMessage({
     required String message,
-    required int senderId,
+    required ChatUserModel sender,
     required String type,
     required String roomId,
     required String messageId,

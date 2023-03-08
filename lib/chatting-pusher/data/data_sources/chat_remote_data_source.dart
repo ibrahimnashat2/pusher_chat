@@ -5,6 +5,7 @@ import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import '../../../../core/errors/exeption_handler.dart';
 import '../../../../core/pusher/pusher_channels.dart';
 import '../models/chat_message_model.dart';
+import '../models/chat_user_model.dart';
 
 abstract class ChatRemoteDataSource {
   Future<Unit> typing({
@@ -19,7 +20,7 @@ abstract class ChatRemoteDataSource {
 
   Future<ChatMessageModel> sendMessage({
     required dynamic message,
-    required int senderId,
+    required ChatUserModel sender,
     required String type,
     required String roomId,
     required String messageId,
@@ -51,7 +52,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   @override
   Future<ChatMessageModel> sendMessage({
     required dynamic message,
-    required int senderId,
+    required ChatUserModel sender,
     required String type,
     required String roomId,
     required String messageId,
@@ -59,7 +60,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
     return await handler<ChatMessageModel>(method: () async {
       final res = ChatMessageModel.fromJson({
         'message': message,
-        'senderId': senderId,
+        'sender': sender.toJson(),
         'type': type,
         'roomId': roomId,
         'messageId': messageId,

@@ -1,8 +1,10 @@
 // ignore_for_file: must_be_immutable
 
+import 'chat_user.dart';
+
 class ChatMessage {
   String message;
-  final int senderId;
+  final ChatUser sender;
   final String type;
   final String messageId;
   final String roomId;
@@ -12,7 +14,7 @@ class ChatMessage {
   ChatMessage({
     required this.message,
     required this.messageId,
-    required this.senderId,
+    required this.sender,
     required this.type,
     required this.roomId,
     this.createdAt,

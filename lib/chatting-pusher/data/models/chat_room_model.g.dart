@@ -17,23 +17,28 @@ const ChatRoomModelSchema = CollectionSchema(
   name: r'ChatRoomModel',
   id: 5231701906426905471,
   properties: {
-    r'lastMessage': PropertySchema(
+    r'lastCustomerService': PropertySchema(
       id: 0,
+      name: r'lastCustomerService',
+      type: IsarType.string,
+    ),
+    r'lastMessage': PropertySchema(
+      id: 1,
       name: r'lastMessage',
       type: IsarType.string,
     ),
     r'lastUpdated': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'lastUpdated',
       type: IsarType.string,
     ),
     r'roomId': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'roomId',
       type: IsarType.string,
     ),
     r'user': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'user',
       type: IsarType.object,
       target: r'ChatUserModel',
@@ -60,6 +65,12 @@ int _chatRoomModelEstimateSize(
 ) {
   var bytesCount = offsets.last;
   {
+    final value = object.lastCustomerService;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.lastMessage;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -84,11 +95,12 @@ void _chatRoomModelSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.lastMessage);
-  writer.writeString(offsets[1], object.lastUpdated);
-  writer.writeString(offsets[2], object.roomId);
+  writer.writeString(offsets[0], object.lastCustomerService);
+  writer.writeString(offsets[1], object.lastMessage);
+  writer.writeString(offsets[2], object.lastUpdated);
+  writer.writeString(offsets[3], object.roomId);
   writer.writeObject<ChatUserModel>(
-    offsets[3],
+    offsets[4],
     allOffsets,
     ChatUserModelSchema.serialize,
     object.user,
@@ -103,11 +115,12 @@ ChatRoomModel _chatRoomModelDeserialize(
 ) {
   final object = ChatRoomModel(
     id: id,
-    lastMessage: reader.readStringOrNull(offsets[0]),
-    lastUpdated: reader.readStringOrNull(offsets[1]),
-    roomId: reader.readString(offsets[2]),
+    lastCustomerService: reader.readStringOrNull(offsets[0]),
+    lastMessage: reader.readStringOrNull(offsets[1]),
+    lastUpdated: reader.readStringOrNull(offsets[2]),
+    roomId: reader.readString(offsets[3]),
     user: reader.readObjectOrNull<ChatUserModel>(
-          offsets[3],
+          offsets[4],
           ChatUserModelSchema.deserialize,
           allOffsets,
         ) ??
@@ -128,8 +141,10 @@ P _chatRoomModelDeserializeProp<P>(
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
       return (reader.readObjectOrNull<ChatUserModel>(
             offset,
             ChatUserModelSchema.deserialize,
@@ -285,6 +300,160 @@ extension ChatRoomModelQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      lastCustomerServiceIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'lastCustomerService',
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      lastCustomerServiceIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'lastCustomerService',
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      lastCustomerServiceEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'lastCustomerService',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      lastCustomerServiceGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'lastCustomerService',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      lastCustomerServiceLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'lastCustomerService',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      lastCustomerServiceBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'lastCustomerService',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      lastCustomerServiceStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'lastCustomerService',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      lastCustomerServiceEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'lastCustomerService',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      lastCustomerServiceContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'lastCustomerService',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      lastCustomerServiceMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'lastCustomerService',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      lastCustomerServiceIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'lastCustomerService',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      lastCustomerServiceIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'lastCustomerService',
+        value: '',
       ));
     });
   }
@@ -749,6 +918,20 @@ extension ChatRoomModelQueryLinks
 
 extension ChatRoomModelQuerySortBy
     on QueryBuilder<ChatRoomModel, ChatRoomModel, QSortBy> {
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterSortBy>
+      sortByLastCustomerService() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastCustomerService', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterSortBy>
+      sortByLastCustomerServiceDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastCustomerService', Sort.desc);
+    });
+  }
+
   QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterSortBy> sortByLastMessage() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastMessage', Sort.asc);
@@ -802,6 +985,20 @@ extension ChatRoomModelQuerySortThenBy
     });
   }
 
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterSortBy>
+      thenByLastCustomerService() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastCustomerService', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterSortBy>
+      thenByLastCustomerServiceDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastCustomerService', Sort.desc);
+    });
+  }
+
   QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterSortBy> thenByLastMessage() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastMessage', Sort.asc);
@@ -843,6 +1040,14 @@ extension ChatRoomModelQuerySortThenBy
 
 extension ChatRoomModelQueryWhereDistinct
     on QueryBuilder<ChatRoomModel, ChatRoomModel, QDistinct> {
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QDistinct>
+      distinctByLastCustomerService({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'lastCustomerService',
+          caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<ChatRoomModel, ChatRoomModel, QDistinct> distinctByLastMessage(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -870,6 +1075,13 @@ extension ChatRoomModelQueryProperty
   QueryBuilder<ChatRoomModel, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, String?, QQueryOperations>
+      lastCustomerServiceProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'lastCustomerService');
     });
   }
 
@@ -909,11 +1121,13 @@ ChatRoomModel _$ChatRoomModelFromJson(Map<String, dynamic> json) =>
       lastUpdated: json['createdAt'] as String?,
       user: ChatUserModel.fromJson(json['user'] as Map<String, dynamic>),
       roomId: json['roomId'] as String,
+      lastCustomerService: json['lastCustomerService'] as String?,
     );
 
 Map<String, dynamic> _$ChatRoomModelToJson(ChatRoomModel instance) =>
     <String, dynamic>{
       'roomId': instance.roomId,
+      'lastCustomerService': instance.lastCustomerService,
       'id': instance.id,
       'user': instance.user,
       'message': instance.lastMessage,

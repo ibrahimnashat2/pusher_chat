@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/errors/failures.dart';
+import '../../data/models/chat_user_model.dart';
 import '../repository/chat_repositroy.dart';
 
 @lazySingleton
@@ -11,14 +12,14 @@ class SaveMessage {
 
   Future<Either<Failure, Unit>> saveMessage({
     required String message,
-    required int senderId,
+    required ChatUserModel sender,
     required String type,
     required String roomId,
     required String messageId,
   }) async {
     return await chatRepository.saveMessage(
       message: message,
-      senderId: senderId,
+      sender: sender,
       type: type,
       roomId: roomId,
       messageId: messageId,

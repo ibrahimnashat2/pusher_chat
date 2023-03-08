@@ -11,6 +11,7 @@ import '../../domain/entities/chat_user.dart';
 import '../../domain/repository/chat_repositroy.dart';
 import '../data_sources/chat_local_data_source.dart';
 import '../data_sources/chat_remote_data_source.dart';
+import '../models/chat_user_model.dart';
 
 @LazySingleton(as: ChatRepository)
 class ChatRepositoryImpl implements ChatRepository {
@@ -43,7 +44,7 @@ class ChatRepositoryImpl implements ChatRepository {
   @override
   Future<Either<Failure, ChatMessage>> sendMessage({
     required dynamic message,
-    required int senderId,
+    required ChatUserModel sender,
     required String type,
     required String roomId,
     required String messageId,
@@ -51,14 +52,14 @@ class ChatRepositoryImpl implements ChatRepository {
     return await handler<ChatMessage>(method: () async {
       await saveMessage(
         message: message,
-        senderId: senderId,
+        sender: sender,
         type: type,
         roomId: roomId,
         messageId: messageId,
       );
       final res = await remoteDataSource.sendMessage(
         message: message,
-        senderId: senderId,
+        sender: sender,
         type: type,
         roomId: roomId,
         messageId: messageId,
@@ -130,7 +131,7 @@ class ChatRepositoryImpl implements ChatRepository {
   @override
   Future<Either<Failure, Unit>> saveMessage({
     required String message,
-    required int senderId,
+    required ChatUserModel sender,
     required String type,
     required String roomId,
     required String messageId,
@@ -139,7 +140,7 @@ class ChatRepositoryImpl implements ChatRepository {
       kPrint('localDataSource');
       await localDataSource.saveMessage(
         message: message,
-        senderId: senderId,
+        sender: sender,
         type: type,
         roomId: roomId,
         messageId: messageId,

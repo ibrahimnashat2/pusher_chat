@@ -7,8 +7,10 @@ class ChatRoom {
   final ChatUser user;
   String? lastMessage;
   String? lastUpdated;
+  String? lastCustomerService;
 
   ChatRoom({
+    this.lastCustomerService,
     this.lastMessage,
     this.lastUpdated,
     required this.roomId,
