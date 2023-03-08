@@ -123,9 +123,9 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
 
   @override
   Future<List<HistoryModel>> getHistory() async {
-    return await handler<List<HistoryModel>>(method: () async {
-      return await isaar.getAll<HistoryModel>();
-    });
+    // return await handler<List<HistoryModel>>(method: () async {
+    return await isaar.getAll<HistoryModel>();
+    //  });
   }
 
   @override
