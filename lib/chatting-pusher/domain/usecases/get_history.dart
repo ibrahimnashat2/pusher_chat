@@ -10,11 +10,7 @@ class GetHistory {
   final ChatRepository chatRepository;
   const GetHistory({required this.chatRepository});
 
-  Future<Either<Failure, List<History>>> sendMessage({
-    required int id,
-    required int userId,
-    required String roomId,
-  }) async {
+  Future<Either<Failure, List<History>>> getHistory() async {
     return await chatRepository.getHistory();
   }
 }
