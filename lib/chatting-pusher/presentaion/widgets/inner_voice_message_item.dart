@@ -40,7 +40,7 @@ class _InnerVoiceMessageItemState extends State<InnerVoiceMessageItem> {
   final _player = AudioPlayer();
 
   Future<void> init() async {
-    await _player.setUrl(widget.url);
+    await _player.setAudioSource(AudioSource.uri(Uri.https(widget.url)));
     bufferedPositionStream = _player.bufferedPositionStream.listen((event) {
       if (event.inSeconds == _player.duration!.inSeconds) {
         _player.pause();
