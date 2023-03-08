@@ -16,10 +16,8 @@ AudioPlayer? currentPlayer;
 class InnerVoiceMessageItem extends StatefulWidget {
   final String url;
   final String time;
-  final Function onDelete;
   const InnerVoiceMessageItem({
     super.key,
-    required this.onDelete,
     required this.url,
     required this.time,
   });
@@ -53,73 +51,70 @@ class _InnerVoiceMessageItemState extends State<InnerVoiceMessageItem> {
   Widget build(BuildContext context) {
     return Align(
       alignment: AlignmentDirectional.centerEnd,
-      child: GestureDetector(
-        onLongPress: () => showMessageOptions(context, widget.onDelete),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Container(
-              constraints: BoxConstraints(
-                minWidth: context.w * 0.4,
-                maxWidth: context.w * 0.65,
-              ),
-              padding: const EdgeInsets.all(10.0),
-              margin: const EdgeInsetsDirectional.only(bottom: 8.0),
-              decoration: const BoxDecoration(
-                color: Coolors.secondColor,
-                borderRadius: BorderRadiusDirectional.only(
-                  topEnd: Radius.circular(15.0),
-                  bottomStart: Radius.circular(15.0),
-                  topStart: Radius.circular(15.0),
-                ),
-              ),
-              child: Row(
-                children: [
-                  StreamBuilder(
-                    initialData: Duration.zero,
-                    stream: _player.durationStream,
-                    builder: (context, state) {
-                      return MText(
-                        text: timeFormat(state.data),
-                        fontSize: 10.0,
-                        fontColor: Coolors.white,
-                      );
-                    },
-                  ).addPadding(start: 12.0),
-                  Expanded(
-                    child: StreamBuilder(
-                      stream: _player.positionStream,
-                      builder: (context, state) {
-                        return LinearPercentIndicator(
-                          isRTL: true,
-                          barRadius: const Radius.circular(25),
-                          percent: progress(state.data),
-                          progressColor: Colors.white,
-                        );
-                      },
-                    ),
-                  ),
-                  StreamBuilder(
-                    initialData: false,
-                    stream: _player.playingStream,
-                    builder: (context, state) {
-                      return Icon(
-                        state.data! ? Icons.pause : Icons.play_arrow,
-                        color: Colors.white,
-                        size: 25.0,
-                      );
-                    },
-                  ).addAction(onTap: playOrPause),
-                ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            constraints: BoxConstraints(
+              minWidth: context.w * 0.4,
+              maxWidth: context.w * 0.65,
+            ),
+            padding: const EdgeInsets.all(10.0),
+            margin: const EdgeInsetsDirectional.only(bottom: 8.0),
+            decoration: const BoxDecoration(
+              color: Coolors.secondColor,
+              borderRadius: BorderRadiusDirectional.only(
+                topEnd: Radius.circular(15.0),
+                bottomStart: Radius.circular(15.0),
+                topStart: Radius.circular(15.0),
               ),
             ),
-            MText(
-              text: widget.time,
-              fontColor: Coolors.secondColor,
-              fontSize: 8.0,
-            ).addPadding(bottom: 5.0)
-          ],
-        ),
+            child: Row(
+              children: [
+                StreamBuilder(
+                  initialData: Duration.zero,
+                  stream: _player.durationStream,
+                  builder: (context, state) {
+                    return MText(
+                      text: timeFormat(state.data),
+                      fontSize: 10.0,
+                      fontColor: Coolors.white,
+                    );
+                  },
+                ).addPadding(start: 12.0),
+                Expanded(
+                  child: StreamBuilder(
+                    stream: _player.positionStream,
+                    builder: (context, state) {
+                      return LinearPercentIndicator(
+                        isRTL: true,
+                        barRadius: const Radius.circular(25),
+                        percent: progress(state.data),
+                        progressColor: Colors.white,
+                      );
+                    },
+                  ),
+                ),
+                StreamBuilder(
+                  initialData: false,
+                  stream: _player.playingStream,
+                  builder: (context, state) {
+                    return Icon(
+                      state.data! ? Icons.pause : Icons.play_arrow,
+                      color: Colors.white,
+                      size: 25.0,
+                    );
+                  },
+                ).addAction(onTap: playOrPause),
+              ],
+            ),
+          ),
+          MText(
+            text: widget.time,
+            fontColor: Coolors.secondColor,
+            fontSize: 8.0,
+          ).addPadding(bottom: 5.0)
+        ],
       ),
     );
   }
