@@ -2,6 +2,7 @@ library pusher_chat;
 
 import 'chatting-pusher/data/models/chat_message_model.dart';
 import 'chatting-pusher/data/models/chat_room_model.dart';
+import 'chatting-pusher/data/models/history_model.dart';
 import 'core/injection/injectable.dart';
 import 'core/isar/isar.dart';
 
@@ -15,6 +16,7 @@ class PusherChat {
       schemas: [
         ChatMessageModelSchema,
         ChatRoomModelSchema,
+        HistoryModelSchema,
       ],
       name: 'chatting_database',
     );
