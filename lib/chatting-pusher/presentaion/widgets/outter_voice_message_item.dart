@@ -36,7 +36,7 @@ class _OutterVoiceMessageItemState extends State<OutterVoiceMessageItem> {
   final _player = AudioPlayer();
 
   Future<void> init() async {
-    await _player.setAudioSource(AudioSource.uri(Uri.https(widget.url)));
+    await _player.setAudioSource(AudioSource.uri(Uri.parse(widget.url)));
     bufferedPositionStream = _player.bufferedPositionStream.listen((event) {
       if (event.inSeconds == _player.duration!.inSeconds) {
         _player.pause();
