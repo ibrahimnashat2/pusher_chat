@@ -57,6 +57,12 @@ class RoomItem extends StatelessWidget {
                     maxWidth: context.w * 0.35,
                     fontColor: Coolors.blackColor,
                   ),
+                  if (room.lastCustomerService != null)
+                    MText(
+                      text: room.lastCustomerService,
+                      fontSize: 10.0,
+                      fontColor: Coolors.blackColor,
+                    ),
                 ],
               ),
             ],
