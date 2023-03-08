@@ -34,6 +34,7 @@ abstract class ChatRepository {
   Future<Either<Failure, Unit>> online({
     required bool state,
     required int senderId,
+    required int ownerId,
   });
 
   Future<Either<Failure, ChatMessage>> sendMessage({

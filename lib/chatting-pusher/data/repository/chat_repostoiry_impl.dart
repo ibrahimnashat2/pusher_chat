@@ -156,10 +156,12 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<Either<Failure, Unit>> online({
     required bool state,
     required int senderId,
+    required int ownerId,
   }) async {
     return await handler<Unit>(method: () async {
       return await remoteDataSource.online(
         state: state,
+        ownerId: ownerId,
         senderId: senderId,
       );
     });

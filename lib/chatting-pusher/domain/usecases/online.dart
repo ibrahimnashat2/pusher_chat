@@ -12,7 +12,12 @@ class Online {
   Future<Either<Failure, Unit>> online({
     required bool state,
     required int senderId,
+    required int ownerId,
   }) async {
-    return await chatRepository.online(state: state, senderId: senderId);
+    return await chatRepository.online(
+      state: state,
+      senderId: senderId,
+      ownerId: ownerId,
+    );
   }
 }

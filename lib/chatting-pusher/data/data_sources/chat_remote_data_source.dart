@@ -16,6 +16,7 @@ abstract class ChatRemoteDataSource {
   Future<Unit> online({
     required bool state,
     required int senderId,
+    required int ownerId,
   });
 
   Future<ChatMessageModel> sendMessage({
@@ -141,6 +142,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   Future<Unit> online({
     required bool state,
     required int senderId,
+    required int ownerId,
   }) async {
     return await handler<Unit>(method: () async {
       pusherChannels.trigger(
@@ -148,6 +150,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         event: 'client-online',
         data: {
           'state': state,
+          'ownerId': ownerId,
           'senderId': senderId,
         },
       );
