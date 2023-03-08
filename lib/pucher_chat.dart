@@ -45,4 +45,8 @@ class PusherChat {
       object: ChatMessageModel.fromJson(data),
     );
   }
+
+  static Future<void> clear() async {
+    await _isaar.clear();
+  }
 }

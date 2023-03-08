@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:isar/isar.dart';
+import 'package:pusher_chat/chatting-pusher/data/models/history_model.dart';
 
 import '../../../../core/errors/exeption_handler.dart';
 import '../../../core/isar/isar.dart';
@@ -26,6 +27,14 @@ abstract class ChatLocalDataSource {
     String? lastUpdated,
     required String roomId,
     required ChatUser user,
+  });
+
+  Future<List<HistoryModel>> getHistory();
+
+  Future<Unit> saveHistory({
+    required int id,
+    required int userId,
+    required String roomId,
   });
 }
 
@@ -109,6 +118,31 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
       );
       await isaar.writeOrUpdate<ChatRoomModel>(object: room);
       return room;
+    });
+  }
+
+  @override
+  Future<List<HistoryModel>> getHistory() async {
+    return await handler<List<HistoryModel>>(method: () async {
+      return await isaar.getAll<HistoryModel>();
+    });
+  }
+
+  @override
+  Future<Unit> saveHistory({
+    required int id,
+    required int userId,
+    required String roomId,
+  }) async {
+    return await handler<Unit>(method: () async {
+      await isaar.writeOrUpdate<HistoryModel>(
+        object: HistoryModel(
+          userId: userId,
+          roomId: roomId,
+          id: id,
+        ),
+      );
+      return unit;
     });
   }
 }

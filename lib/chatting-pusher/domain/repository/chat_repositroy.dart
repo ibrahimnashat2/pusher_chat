@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
+import 'package:pusher_chat/chatting-pusher/domain/entities/history.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../data/models/chat_user_model.dart';
@@ -33,6 +34,7 @@ abstract class ChatRepository {
     required bool state,
     required int senderId,
   });
+
   Future<Either<Failure, ChatMessage>> sendMessage({
     required dynamic message,
     required ChatUserModel sender,
@@ -51,5 +53,14 @@ abstract class ChatRepository {
     required int id,
     required int senderId,
   });
+
+  Future<Either<Failure, List<History>>> getHistory();
+
+  Future<Either<Failure, Unit>> saveHistory({
+    required int id,
+    required int userId,
+    required String roomId,
+  });
+
   Future<Either<Failure, Unit>> disconnect();
 }

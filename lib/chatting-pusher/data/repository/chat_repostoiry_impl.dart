@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
+import 'package:pusher_chat/chatting-pusher/domain/entities/history.dart';
 
 import '../../../../core/errors/failure_handler.dart';
 import '../../../../core/errors/failures.dart';
@@ -158,6 +159,28 @@ class ChatRepositoryImpl implements ChatRepository {
       return await remoteDataSource.online(
         state: state,
         senderId: senderId,
+      );
+    });
+  }
+
+  @override
+  Future<Either<Failure, List<History>>> getHistory() async {
+    return await handler<List<History>>(method: () async {
+      return await localDataSource.getHistory();
+    });
+  }
+
+  @override
+  Future<Either<Failure, Unit>> saveHistory({
+    required int id,
+    required int userId,
+    required String roomId,
+  }) async {
+    return await handler<Unit>(method: () async {
+      return await localDataSource.saveHistory(
+        id: id,
+        userId: userId,
+        roomId: roomId,
       );
     });
   }
