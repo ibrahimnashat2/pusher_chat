@@ -28,20 +28,20 @@ import 'package:pusher_chat/chatting-pusher/domain/usecases/get_all_messages.dar
     as _i20;
 import 'package:pusher_chat/chatting-pusher/domain/usecases/get_all_rooms.dart'
     as _i21;
-import 'package:pusher_chat/chatting-pusher/domain/usecases/get_history.dart'
-    as _i22;
 import 'package:pusher_chat/chatting-pusher/domain/usecases/on_listen_pusher.dart'
-    as _i23;
+    as _i22;
 import 'package:pusher_chat/chatting-pusher/domain/usecases/online.dart'
-    as _i24;
-import 'package:pusher_chat/chatting-pusher/domain/usecases/save_history.dart'
-    as _i25;
+    as _i23;
 import 'package:pusher_chat/chatting-pusher/domain/usecases/save_message.dart'
-    as _i26;
+    as _i24;
 import 'package:pusher_chat/chatting-pusher/domain/usecases/save_room.dart'
+    as _i25;
+import 'package:pusher_chat/chatting-pusher/domain/usecases/get_history.dart'
     as _i27;
-import 'package:pusher_chat/chatting-pusher/domain/usecases/send_message.dart'
+import 'package:pusher_chat/chatting-pusher/domain/usecases/save_history.dart'
     as _i28;
+import 'package:pusher_chat/chatting-pusher/domain/usecases/send_message.dart'
+    as _i26;
 import 'package:pusher_chat/chatting-pusher/domain/usecases/typing.dart'
     as _i29;
 import 'package:pusher_chat/core/errors/exeption_handler.dart' as _i12;
@@ -107,20 +107,20 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i20.GetAllMessages(chatRepository: gh<_i16.ChatRepository>()));
     gh.lazySingleton<_i21.GetAllRooms>(
         () => _i21.GetAllRooms(chatRepository: gh<_i16.ChatRepository>()));
-    gh.lazySingleton<_i22.GetHistory>(
-        () => _i22.GetHistory(chatRepository: gh<_i16.ChatRepository>()));
-    gh.lazySingleton<_i23.OnListenPusher>(
-        () => _i23.OnListenPusher(chatRepository: gh<_i16.ChatRepository>()));
-    gh.lazySingleton<_i24.Online>(
-        () => _i24.Online(chatRepository: gh<_i16.ChatRepository>()));
-    gh.lazySingleton<_i25.SaveHistory>(
-        () => _i25.SaveHistory(chatRepository: gh<_i16.ChatRepository>()));
-    gh.lazySingleton<_i26.SaveMessage>(
-        () => _i26.SaveMessage(chatRepository: gh<_i16.ChatRepository>()));
-    gh.lazySingleton<_i27.SaveRoom>(
-        () => _i27.SaveRoom(chatRepository: gh<_i16.ChatRepository>()));
-    gh.lazySingleton<_i28.SendMessage>(
-        () => _i28.SendMessage(chatRepository: gh<_i16.ChatRepository>()));
+    gh.lazySingleton<_i22.OnListenPusher>(
+        () => _i22.OnListenPusher(chatRepository: gh<_i16.ChatRepository>()));
+    gh.lazySingleton<_i23.Online>(
+        () => _i23.Online(chatRepository: gh<_i16.ChatRepository>()));
+    gh.lazySingleton<_i24.SaveMessage>(
+        () => _i24.SaveMessage(chatRepository: gh<_i16.ChatRepository>()));
+    gh.lazySingleton<_i25.SaveRoom>(
+        () => _i25.SaveRoom(chatRepository: gh<_i16.ChatRepository>()));
+    gh.lazySingleton<_i26.SendMessage>(
+        () => _i26.SendMessage(chatRepository: gh<_i16.ChatRepository>()));
+    gh.lazySingleton<_i27.GetHistory>(
+        () => _i27.GetHistory(chatRepository: gh<_i16.ChatRepository>()));
+    gh.lazySingleton<_i28.SaveHistory>(
+        () => _i28.SaveHistory(chatRepository: gh<_i16.ChatRepository>()));
     gh.lazySingleton<_i29.Typing>(
         () => _i29.Typing(chatRepository: gh<_i16.ChatRepository>()));
     return this;
