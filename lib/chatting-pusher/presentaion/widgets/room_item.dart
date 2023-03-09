@@ -74,19 +74,20 @@ class RoomItem extends StatelessWidget {
                 fontSize: 12.0,
                 fontColor: Coolors.blackColor,
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 12.0),
-                decoration: const BoxDecoration(
-                  color: Coolors.secondColor,
-                  shape: BoxShape.circle,
-                ),
-                padding: const EdgeInsets.all(8.0),
-                child: MText(
-                  text: "${room.unReadCount}",
-                  fontColor: Coolors.white,
-                  fontSize: 12.0,
-                ),
-              )
+              if (room.unReadCount != 0)
+                Container(
+                  margin: const EdgeInsets.only(top: 12.0),
+                  decoration: const BoxDecoration(
+                    color: Coolors.secondColor,
+                    shape: BoxShape.circle,
+                  ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: MText(
+                    text: "${room.unReadCount}",
+                    fontColor: Coolors.white,
+                    fontSize: 12.0,
+                  ),
+                )
             ],
           ),
         ],
