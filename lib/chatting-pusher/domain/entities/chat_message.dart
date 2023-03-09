@@ -5,6 +5,7 @@ import 'chat_user.dart';
 class ChatMessage {
   String message;
   final ChatUser sender;
+  final ChatUser? reciever;
   final String type;
   final String messageId;
   final String roomId;
@@ -18,6 +19,7 @@ class ChatMessage {
     required this.type,
     required this.roomId,
     this.createdAt,
+    this.reciever,
     required this.id,
   });
 }

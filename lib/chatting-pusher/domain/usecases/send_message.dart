@@ -14,12 +14,14 @@ class SendMessage {
   Future<Either<Failure, ChatMessage>> sendMessage({
     required dynamic message,
     required ChatUserModel sender,
+    ChatUserModel? reciever,
     required String type,
     required String roomId,
     required String messageId,
   }) async {
     return await chatRepository.sendMessage(
       message: message,
+      reciever: reciever,
       sender: sender,
       type: type,
       roomId: roomId,

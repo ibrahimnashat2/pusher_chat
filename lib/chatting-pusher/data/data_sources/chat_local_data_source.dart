@@ -18,6 +18,7 @@ abstract class ChatLocalDataSource {
   Future<Unit> saveMessage({
     required String message,
     required ChatUserModel sender,
+    ChatUserModel? reciever,
     required String type,
     required String roomId,
     required String messageId,
@@ -75,6 +76,7 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
   Future<Unit> saveMessage({
     required String message,
     required ChatUserModel sender,
+    ChatUserModel? reciever,
     required String type,
     required String roomId,
     required String messageId,
@@ -82,6 +84,7 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
     return await handler<Unit>(method: () async {
       await isaar.writeOrUpdate<ChatMessageModel>(
         object: ChatMessageModel(
+          reciever: reciever,
           messageId: messageId,
           sender: sender,
           message: message,

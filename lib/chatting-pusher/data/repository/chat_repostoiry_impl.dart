@@ -46,22 +46,24 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<Either<Failure, ChatMessage>> sendMessage({
     required dynamic message,
     required ChatUserModel sender,
+    ChatUserModel? reciever,
     required String type,
     required String roomId,
     required String messageId,
   }) async {
     return await handler<ChatMessage>(method: () async {
       await saveMessage(
-        message: message,
-        sender: sender,
-        type: type,
-        roomId: roomId,
-        messageId: messageId,
-      );
+          message: message,
+          sender: sender,
+          type: type,
+          roomId: roomId,
+          messageId: messageId,
+          reciever: reciever);
       final res = await remoteDataSource.sendMessage(
         message: message,
         sender: sender,
         type: type,
+        reciever: reciever,
         roomId: roomId,
         messageId: messageId,
       );
@@ -139,6 +141,7 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<Either<Failure, Unit>> saveMessage({
     required String message,
     required ChatUserModel sender,
+    ChatUserModel? reciever,
     required String type,
     required String roomId,
     required String messageId,
@@ -150,6 +153,7 @@ class ChatRepositoryImpl implements ChatRepository {
         sender: sender,
         type: type,
         roomId: roomId,
+        reciever: reciever,
         messageId: messageId,
       );
       return unit;

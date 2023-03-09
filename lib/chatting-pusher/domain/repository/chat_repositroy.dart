@@ -43,6 +43,7 @@ abstract class ChatRepository {
   Future<Either<Failure, ChatMessage>> sendMessage({
     required dynamic message,
     required ChatUserModel sender,
+    ChatUserModel? reciever,
     required String type,
     required String roomId,
     required String messageId,
@@ -50,6 +51,7 @@ abstract class ChatRepository {
   Future<Either<Failure, Unit>> saveMessage({
     required String message,
     required ChatUserModel sender,
+    ChatUserModel? reciever,
     required String type,
     required String roomId,
     required String messageId,

@@ -24,6 +24,7 @@ abstract class ChatRemoteDataSource {
   Future<ChatMessageModel> sendMessage({
     required dynamic message,
     required ChatUserModel sender,
+    ChatUserModel? reciever,
     required String type,
     required String roomId,
     required String messageId,
@@ -56,6 +57,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   Future<ChatMessageModel> sendMessage({
     required dynamic message,
     required ChatUserModel sender,
+    ChatUserModel? reciever,
     required String type,
     required String roomId,
     required String messageId,
@@ -64,6 +66,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       final res = ChatMessageModel.fromJson({
         'message': message,
         'sender': sender.toJson(),
+        'reciever': reciever?.toJson(),
         'type': type,
         'roomId': roomId,
         'messageId': messageId,

@@ -14,6 +14,8 @@ class ChatMessageModel extends ChatMessage {
   Id id;
   @override
   ChatUserModel sender;
+  @override
+  ChatUserModel? reciever;
   ChatMessageModel({
     this.id = Isar.autoIncrement,
     required super.message,
@@ -21,8 +23,9 @@ class ChatMessageModel extends ChatMessage {
     required super.type,
     required super.roomId,
     super.createdAt,
+    this.reciever,
     required super.messageId,
-  }) : super(id: id, sender: sender);
+  }) : super(id: id, sender: sender, reciever: reciever);
 
   factory ChatMessageModel.fromJson(Map<String, dynamic> json) =>
       _$ChatMessageModelFromJson(json);

@@ -32,19 +32,25 @@ const ChatMessageModelSchema = CollectionSchema(
       name: r'messageId',
       type: IsarType.string,
     ),
-    r'roomId': PropertySchema(
+    r'reciever': PropertySchema(
       id: 3,
+      name: r'reciever',
+      type: IsarType.object,
+      target: r'ChatUserModel',
+    ),
+    r'roomId': PropertySchema(
+      id: 4,
       name: r'roomId',
       type: IsarType.string,
     ),
     r'sender': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'sender',
       type: IsarType.object,
       target: r'ChatUserModel',
     ),
     r'type': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'type',
       type: IsarType.string,
     )
@@ -77,6 +83,14 @@ int _chatMessageModelEstimateSize(
   }
   bytesCount += 3 + object.message.length * 3;
   bytesCount += 3 + object.messageId.length * 3;
+  {
+    final value = object.reciever;
+    if (value != null) {
+      bytesCount += 3 +
+          ChatUserModelSchema.estimateSize(
+              value, allOffsets[ChatUserModel]!, allOffsets);
+    }
+  }
   bytesCount += 3 + object.roomId.length * 3;
   bytesCount += 3 +
       ChatUserModelSchema.estimateSize(
@@ -94,14 +108,20 @@ void _chatMessageModelSerialize(
   writer.writeString(offsets[0], object.createdAt);
   writer.writeString(offsets[1], object.message);
   writer.writeString(offsets[2], object.messageId);
-  writer.writeString(offsets[3], object.roomId);
   writer.writeObject<ChatUserModel>(
-    offsets[4],
+    offsets[3],
+    allOffsets,
+    ChatUserModelSchema.serialize,
+    object.reciever,
+  );
+  writer.writeString(offsets[4], object.roomId);
+  writer.writeObject<ChatUserModel>(
+    offsets[5],
     allOffsets,
     ChatUserModelSchema.serialize,
     object.sender,
   );
-  writer.writeString(offsets[5], object.type);
+  writer.writeString(offsets[6], object.type);
 }
 
 ChatMessageModel _chatMessageModelDeserialize(
@@ -115,14 +135,19 @@ ChatMessageModel _chatMessageModelDeserialize(
     id: id,
     message: reader.readString(offsets[1]),
     messageId: reader.readString(offsets[2]),
-    roomId: reader.readString(offsets[3]),
+    reciever: reader.readObjectOrNull<ChatUserModel>(
+      offsets[3],
+      ChatUserModelSchema.deserialize,
+      allOffsets,
+    ),
+    roomId: reader.readString(offsets[4]),
     sender: reader.readObjectOrNull<ChatUserModel>(
-          offsets[4],
+          offsets[5],
           ChatUserModelSchema.deserialize,
           allOffsets,
         ) ??
         ChatUserModel(),
-    type: reader.readString(offsets[5]),
+    type: reader.readString(offsets[6]),
   );
   return object;
 }
@@ -141,15 +166,21 @@ P _chatMessageModelDeserializeProp<P>(
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readObjectOrNull<ChatUserModel>(
+        offset,
+        ChatUserModelSchema.deserialize,
+        allOffsets,
+      )) as P;
     case 4:
+      return (reader.readString(offset)) as P;
+    case 5:
       return (reader.readObjectOrNull<ChatUserModel>(
             offset,
             ChatUserModelSchema.deserialize,
             allOffsets,
           ) ??
           ChatUserModel()) as P;
-    case 5:
+    case 6:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -733,6 +764,24 @@ extension ChatMessageModelQueryFilter
   }
 
   QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterFilterCondition>
+      recieverIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'reciever',
+      ));
+    });
+  }
+
+  QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterFilterCondition>
+      recieverIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'reciever',
+      ));
+    });
+  }
+
+  QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterFilterCondition>
       roomIdEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1008,6 +1057,13 @@ extension ChatMessageModelQueryFilter
 extension ChatMessageModelQueryObject
     on QueryBuilder<ChatMessageModel, ChatMessageModel, QFilterCondition> {
   QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterFilterCondition>
+      reciever(FilterQuery<ChatUserModel> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'reciever');
+    });
+  }
+
+  QueryBuilder<ChatMessageModel, ChatMessageModel, QAfterFilterCondition>
       sender(FilterQuery<ChatUserModel> q) {
     return QueryBuilder.apply(this, (query) {
       return query.object(q, r'sender');
@@ -1240,6 +1296,13 @@ extension ChatMessageModelQueryProperty
     });
   }
 
+  QueryBuilder<ChatMessageModel, ChatUserModel?, QQueryOperations>
+      recieverProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'reciever');
+    });
+  }
+
   QueryBuilder<ChatMessageModel, String, QQueryOperations> roomIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'roomId');
@@ -1272,6 +1335,9 @@ ChatMessageModel _$ChatMessageModelFromJson(Map<String, dynamic> json) =>
       type: json['type'] as String,
       roomId: json['roomId'] as String,
       createdAt: json['createdAt'] as String?,
+      reciever: json['reciever'] == null
+          ? null
+          : ChatUserModel.fromJson(json['reciever'] as Map<String, dynamic>),
       messageId: json['messageId'] as String,
     );
 
@@ -1284,4 +1350,5 @@ Map<String, dynamic> _$ChatMessageModelToJson(ChatMessageModel instance) =>
       'createdAt': instance.createdAt,
       'id': instance.id,
       'sender': instance.sender,
+      'reciever': instance.reciever,
     };
