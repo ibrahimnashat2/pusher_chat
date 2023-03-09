@@ -73,11 +73,13 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<Either<Failure, Unit>> typing({
     required bool typing,
     required int senderId,
+    required String roomId,
   }) async {
     return await handler<Unit>(method: () async {
       return await remoteDataSource.typing(
         typing: typing,
         senderId: senderId,
+        roomId: roomId,
       );
     });
   }
@@ -159,12 +161,14 @@ class ChatRepositoryImpl implements ChatRepository {
     required bool state,
     required int senderId,
     required int ownerId,
+    required String roomId,
   }) async {
     return await handler<Unit>(method: () async {
       return await remoteDataSource.online(
         state: state,
         ownerId: ownerId,
         senderId: senderId,
+        roomId: roomId,
       );
     });
   }

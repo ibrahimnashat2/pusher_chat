@@ -31,11 +31,13 @@ abstract class ChatRepository {
   Future<Either<Failure, Unit>> typing({
     required bool typing,
     required int senderId,
+    required String roomId,
   });
   Future<Either<Failure, Unit>> online({
     required bool state,
     required int senderId,
     required int ownerId,
+    required String roomId,
   });
 
   Future<Either<Failure, ChatMessage>> sendMessage({

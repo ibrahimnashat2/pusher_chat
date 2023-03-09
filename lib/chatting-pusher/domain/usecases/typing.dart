@@ -12,7 +12,12 @@ class Typing {
   Future<Either<Failure, Unit>> typing({
     required bool typing,
     required int senderId,
+    required String roomId,
   }) async {
-    return await chatRepository.typing(typing: typing, senderId: senderId);
+    return await chatRepository.typing(
+      typing: typing,
+      senderId: senderId,
+      roomId: roomId,
+    );
   }
 }

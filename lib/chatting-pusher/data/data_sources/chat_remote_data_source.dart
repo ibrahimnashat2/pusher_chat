@@ -11,12 +11,14 @@ abstract class ChatRemoteDataSource {
   Future<Unit> typing({
     required bool typing,
     required int senderId,
+    required String roomId,
   });
 
   Future<Unit> online({
     required bool state,
     required int senderId,
     required int ownerId,
+    required String roomId,
   });
 
   Future<ChatMessageModel> sendMessage({
@@ -80,6 +82,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   Future<Unit> typing({
     required bool typing,
     required int senderId,
+    required String roomId,
   }) async {
     return await handler<Unit>(method: () async {
       pusherChannels.trigger(
@@ -88,6 +91,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         data: {
           'typing': typing,
           'senderId': senderId,
+          'roomId': roomId,
         },
       );
       return unit;
@@ -143,6 +147,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
     required bool state,
     required int senderId,
     required int ownerId,
+    required String roomId,
   }) async {
     return await handler<Unit>(method: () async {
       pusherChannels.trigger(
@@ -152,6 +157,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
           'state': state,
           'ownerId': ownerId,
           'senderId': senderId,
+          'roomId': roomId,
         },
       );
       return unit;

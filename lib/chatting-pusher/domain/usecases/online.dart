@@ -13,11 +13,13 @@ class Online {
     required bool state,
     required int senderId,
     required int ownerId,
+    required String roomId,
   }) async {
     return await chatRepository.online(
       state: state,
       senderId: senderId,
       ownerId: ownerId,
+      roomId: roomId,
     );
   }
 }
