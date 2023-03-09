@@ -75,12 +75,12 @@ class RoomItem extends StatelessWidget {
                 fontColor: Coolors.blackColor,
               ),
               Container(
-                margin: const EdgeInsets.only(top: 24.0),
+                margin: const EdgeInsets.only(top: 12.0),
                 decoration: const BoxDecoration(
                   color: Coolors.secondColor,
                   shape: BoxShape.circle,
                 ),
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(8.0),
                 child: MText(
                   text: "${room.unReadCount}",
                   fontColor: Coolors.white,
