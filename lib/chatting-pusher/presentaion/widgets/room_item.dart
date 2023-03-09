@@ -67,10 +67,27 @@ class RoomItem extends StatelessWidget {
               ),
             ],
           ),
-          MText(
-            text: room.lastUpdated?.timeOnly,
-            fontSize: 12.0,
-            fontColor: Coolors.blackColor,
+          Column(
+            children: [
+              MText(
+                text: room.lastUpdated?.timeOnly,
+                fontSize: 12.0,
+                fontColor: Coolors.blackColor,
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 24.0),
+                decoration: const BoxDecoration(
+                  color: Coolors.secondColor,
+                  shape: BoxShape.circle,
+                ),
+                padding: const EdgeInsets.all(12.0),
+                child: MText(
+                  text: "${room.unReadCount}",
+                  fontColor: Coolors.white,
+                  fontSize: 16.0,
+                ),
+              )
+            ],
           ),
         ],
       ),
