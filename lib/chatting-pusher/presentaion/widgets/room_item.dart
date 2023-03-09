@@ -59,7 +59,7 @@ class RoomItem extends StatelessWidget {
                   ),
                   if (room.lastCustomerService != null)
                     MText(
-                      text: room.lastCustomerService,
+                      text: room.lastCustomerService ?? '',
                       fontSize: 10.0,
                       fontColor: Coolors.blackColor,
                     ),
