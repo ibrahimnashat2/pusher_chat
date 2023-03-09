@@ -57,9 +57,9 @@ class RoomItem extends StatelessWidget {
                     maxWidth: context.w * 0.35,
                     fontColor: Coolors.blackColor,
                   ),
-                  if (room.lastCustomerService != null)
+                  if (room.lastCustomerService != '')
                     MText(
-                      text: room.lastCustomerService ?? '',
+                      text: room.lastCustomerService,
                       fontSize: 10.0,
                       fontColor: Coolors.blackColor,
                     ),
@@ -84,7 +84,7 @@ class RoomItem extends StatelessWidget {
                 child: MText(
                   text: "${room.unReadCount}",
                   fontColor: Coolors.white,
-                  fontSize: 16.0,
+                  fontSize: 12.0,
                 ),
               )
             ],
