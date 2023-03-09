@@ -67,7 +67,7 @@ class PusherNotificitions {
   Future<void> sendFCM({
     required String title,
     required String body,
-    required String toUser,
+    required List<String> toUsers,
     Map<String, dynamic>? data,
   }) async {
     final Map<String, String> headers = {
@@ -82,7 +82,7 @@ class PusherNotificitions {
       body: notificationBody(
         body: body,
         title: title,
-        toUser: toUser,
+        toUsers: toUsers,
         data: data,
       ),
     );
@@ -96,7 +96,7 @@ class PusherNotificitions {
   String notificationBody({
     required String title,
     required String body,
-    required String toUser,
+    required List<String> toUsers,
     Map<String, dynamic>? data,
   }) {
     final message = {
@@ -109,7 +109,7 @@ class PusherNotificitions {
       message['data'] = jsonEncode(data);
     }
     return json.encode({
-      "interests": [toUser],
+      "interests": toUsers,
 
       ///[for android systems]
       "fcm": {
