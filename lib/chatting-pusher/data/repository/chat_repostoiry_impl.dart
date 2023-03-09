@@ -87,6 +87,7 @@ class ChatRepositoryImpl implements ChatRepository {
     String? lastMessage,
     String? lastUpdated,
     String? lastCustomerService,
+    int unReadCount = 0,
     required String roomId,
     required ChatUser user,
   }) async {
@@ -96,6 +97,7 @@ class ChatRepositoryImpl implements ChatRepository {
         lastUpdated: lastUpdated,
         roomId: roomId,
         user: user,
+        unReadCount: unReadCount,
         lastCustomerService: lastCustomerService,
       );
     });

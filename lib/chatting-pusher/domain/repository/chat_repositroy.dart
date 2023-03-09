@@ -23,6 +23,7 @@ abstract class ChatRepository {
     String? lastMessage,
     String? lastUpdated,
     String? lastCustomerService,
+    int unReadCount = 0,
     required String roomId,
     required ChatUser user,
   });

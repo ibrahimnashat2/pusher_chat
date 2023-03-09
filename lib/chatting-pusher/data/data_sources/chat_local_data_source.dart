@@ -26,6 +26,7 @@ abstract class ChatLocalDataSource {
     String? lastMessage,
     String? lastUpdated,
     String? lastCustomerService,
+    int unReadCount = 0,
     required String roomId,
     required ChatUser user,
   });
@@ -98,6 +99,7 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
     String? lastMessage,
     String? lastUpdated,
     String? lastCustomerService,
+    int unReadCount = 0,
     required String roomId,
     required ChatUser user,
   }) async {
@@ -113,6 +115,7 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
         lastMessage: lastMessage,
         lastUpdated: lastUpdated,
         lastCustomerService: lastCustomerService,
+        unReadCount: unReadCount,
         user: ChatUserModel(
           image: user.image,
           name: user.name,

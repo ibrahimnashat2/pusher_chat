@@ -25,6 +25,7 @@ class ChatRoomModel extends ChatRoom {
     this.id = Isar.autoIncrement,
     this.lastMessage,
     this.lastUpdated,
+    super.unReadCount = 0,
     required this.user,
     required super.roomId,
     super.lastCustomerService,

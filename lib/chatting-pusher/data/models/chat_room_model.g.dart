@@ -37,8 +37,13 @@ const ChatRoomModelSchema = CollectionSchema(
       name: r'roomId',
       type: IsarType.string,
     ),
-    r'user': PropertySchema(
+    r'unReadCount': PropertySchema(
       id: 4,
+      name: r'unReadCount',
+      type: IsarType.long,
+    ),
+    r'user': PropertySchema(
+      id: 5,
       name: r'user',
       type: IsarType.object,
       target: r'ChatUserModel',
@@ -99,8 +104,9 @@ void _chatRoomModelSerialize(
   writer.writeString(offsets[1], object.lastMessage);
   writer.writeString(offsets[2], object.lastUpdated);
   writer.writeString(offsets[3], object.roomId);
+  writer.writeLong(offsets[4], object.unReadCount);
   writer.writeObject<ChatUserModel>(
-    offsets[4],
+    offsets[5],
     allOffsets,
     ChatUserModelSchema.serialize,
     object.user,
@@ -119,8 +125,9 @@ ChatRoomModel _chatRoomModelDeserialize(
     lastMessage: reader.readStringOrNull(offsets[1]),
     lastUpdated: reader.readStringOrNull(offsets[2]),
     roomId: reader.readString(offsets[3]),
+    unReadCount: reader.readLongOrNull(offsets[4]) ?? 0,
     user: reader.readObjectOrNull<ChatUserModel>(
-          offsets[4],
+          offsets[5],
           ChatUserModelSchema.deserialize,
           allOffsets,
         ) ??
@@ -145,6 +152,8 @@ P _chatRoomModelDeserializeProp<P>(
     case 3:
       return (reader.readString(offset)) as P;
     case 4:
+      return (reader.readLongOrNull(offset) ?? 0) as P;
+    case 5:
       return (reader.readObjectOrNull<ChatUserModel>(
             offset,
             ChatUserModelSchema.deserialize,
@@ -901,6 +910,62 @@ extension ChatRoomModelQueryFilter
       ));
     });
   }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      unReadCountEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'unReadCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      unReadCountGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'unReadCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      unReadCountLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'unReadCount',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterFilterCondition>
+      unReadCountBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'unReadCount',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
 extension ChatRoomModelQueryObject
@@ -967,6 +1032,19 @@ extension ChatRoomModelQuerySortBy
   QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterSortBy> sortByRoomIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'roomId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterSortBy> sortByUnReadCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'unReadCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterSortBy>
+      sortByUnReadCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'unReadCount', Sort.desc);
     });
   }
 }
@@ -1036,6 +1114,19 @@ extension ChatRoomModelQuerySortThenBy
       return query.addSortBy(r'roomId', Sort.desc);
     });
   }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterSortBy> thenByUnReadCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'unReadCount', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QAfterSortBy>
+      thenByUnReadCountDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'unReadCount', Sort.desc);
+    });
+  }
 }
 
 extension ChatRoomModelQueryWhereDistinct
@@ -1066,6 +1157,13 @@ extension ChatRoomModelQueryWhereDistinct
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'roomId', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<ChatRoomModel, ChatRoomModel, QDistinct>
+      distinctByUnReadCount() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'unReadCount');
     });
   }
 }
@@ -1103,6 +1201,12 @@ extension ChatRoomModelQueryProperty
     });
   }
 
+  QueryBuilder<ChatRoomModel, int, QQueryOperations> unReadCountProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'unReadCount');
+    });
+  }
+
   QueryBuilder<ChatRoomModel, ChatUserModel, QQueryOperations> userProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'user');
@@ -1119,6 +1223,7 @@ ChatRoomModel _$ChatRoomModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as int? ?? Isar.autoIncrement,
       lastMessage: json['message'] as String?,
       lastUpdated: json['createdAt'] as String?,
+      unReadCount: json['unReadCount'] as int? ?? 0,
       user: ChatUserModel.fromJson(json['user'] as Map<String, dynamic>),
       roomId: json['roomId'] as String,
       lastCustomerService: json['lastCustomerService'] as String?,
@@ -1128,6 +1233,7 @@ Map<String, dynamic> _$ChatRoomModelToJson(ChatRoomModel instance) =>
     <String, dynamic>{
       'roomId': instance.roomId,
       'lastCustomerService': instance.lastCustomerService,
+      'unReadCount': instance.unReadCount,
       'id': instance.id,
       'user': instance.user,
       'message': instance.lastMessage,
