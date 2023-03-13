@@ -4,6 +4,7 @@ import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 import '../../../../core/errors/exeption_handler.dart';
 import '../../../../core/pusher/pusher_channels.dart';
+import '../../../core/pusher/consts.dart';
 import '../models/chat_message_model.dart';
 import '../models/chat_user_model.dart';
 
@@ -47,8 +48,10 @@ abstract class ChatRemoteDataSource {
 class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   final PusherChannels pusherChannels;
   final ExceptionHandler handler;
+  final PusherEnv pusherEnv;
 
   ChatRemoteDataSourceImpl({
+    required this.pusherEnv,
     required this.pusherChannels,
     required this.handler,
   });
@@ -73,7 +76,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         'createdAt': DateTime.now().toIso8601String(),
       });
       pusherChannels.trigger(
-        channel: 'private-chat-room',
+        channel: pusherEnv.CHANNEL_NAME,
         event: 'client-add-message',
         data: res.toJson(),
       );
@@ -89,7 +92,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }) async {
     return await handler<Unit>(method: () async {
       pusherChannels.trigger(
-        channel: 'private-chat-room',
+        channel: pusherEnv.CHANNEL_NAME,
         event: 'client-typing',
         data: {
           'typing': typing,
@@ -112,7 +115,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
         onConnected: onConnected,
       );
       pusherChannels.subscribe(
-        channel: 'private-chat-room',
+        channel: pusherEnv.CHANNEL_NAME,
       );
       return unit;
     });
@@ -121,7 +124,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   @override
   Future<Unit> disconnect() async {
     return await handler<Unit>(method: () async {
-      await pusherChannels.unsubscribe(channel: 'private-chat-room');
+      await pusherChannels.unsubscribe(channel: pusherEnv.CHANNEL_NAME);
       await pusherChannels.disconnect();
       return unit;
     });
@@ -134,7 +137,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }) async {
     return await handler<Unit>(method: () async {
       pusherChannels.trigger(
-        channel: 'private-chat-room',
+        channel: pusherEnv.CHANNEL_NAME,
         event: 'client-delete-message',
         data: {
           'messageId': id,
@@ -154,7 +157,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   }) async {
     return await handler<Unit>(method: () async {
       pusherChannels.trigger(
-        channel: 'private-chat-room',
+        channel: pusherEnv.CHANNEL_NAME,
         event: 'client-online',
         data: {
           'state': state,

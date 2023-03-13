@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
 abstract class PusherEnv {
+  final CHANNEL_NAME = 'private-chat-room-prod';
   final PROJECT_ID = '37d86909-c315-4927-95bc-06f60601c38d';
   final BEARER_TOKEN =
       '543747910FBD5CEBE599EC88604D4ACB55D6D478A582F59C370D5646D242A3AC';
