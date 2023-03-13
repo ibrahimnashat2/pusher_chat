@@ -10,8 +10,10 @@ import 'consts.dart';
 @lazySingleton
 class PusherNotificitions {
   final PusherBeams pusher;
+  final PusherEnv pusherEnv;
   PusherNotificitions({
     required this.pusher,
+    required this.pusherEnv,
   });
   final BeamsAuthProvider provider = BeamsAuthProvider()
     ..authUrl = 'https://some-auth-url.com/secure'
@@ -20,7 +22,7 @@ class PusherNotificitions {
     ..credentials = 'omit';
 
   Future<void> init() async {
-    await pusher.start(PusherEnv.PROJECT_ID);
+    await pusher.start(pusherEnv.PROJECT_ID);
   }
 
   Future<void> setUser({required String userId}) async {
@@ -72,10 +74,10 @@ class PusherNotificitions {
   }) async {
     final Map<String, String> headers = {
       "Content-Type": "application/json",
-      "Authorization": "Bearer ${PusherEnv.BEARER_TOKEN}"
+      "Authorization": "Bearer ${pusherEnv.BEARER_TOKEN}"
     };
-    const path =
-        "https://${PusherEnv.PROJECT_ID}.pushnotifications.pusher.com/publish_api/v1/instances/${PusherEnv.PROJECT_ID}/publishes";
+    final path =
+        "https://${pusherEnv.PROJECT_ID}.pushnotifications.pusher.com/publish_api/v1/instances/${pusherEnv.PROJECT_ID}/publishes";
     final res = await http.post(
       Uri.parse(path),
       headers: headers,

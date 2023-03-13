@@ -13,7 +13,11 @@ import 'consts.dart';
 @lazySingleton
 class PusherChannels {
   final PusherChannelsFlutter pusher;
-  PusherChannels({required this.pusher});
+  final PusherEnv pusherEnv;
+  PusherChannels({
+    required this.pusher,
+    required this.pusherEnv,
+  });
   String socketId = '';
   Future<void> init({
     required Function() onConnected,
@@ -21,8 +25,8 @@ class PusherChannels {
   }) async {
     await pusher.init(
       onAuthorizer: onAuthorizer,
-      apiKey: PusherEnv.API_KEY,
-      cluster: PusherEnv.API_CLUSTER,
+      apiKey: pusherEnv.API_KEY,
+      cluster: pusherEnv.API_CLUSTER,
       onError: (message, code, error) {
         kPrint('onError $message $error $code');
       },
@@ -45,11 +49,11 @@ class PusherChannels {
       "chat-type": "customer service",
     });
     final secretBody = "$socketId:$channelName:$userData";
-    final secretkey = utf8.encode(PusherEnv.SECRET);
+    final secretkey = utf8.encode(pusherEnv.SECRET);
     final secretBodyInBytes = utf8.encode(secretBody);
     final hmacSha256 = Hmac(sha256, secretkey);
     final signature = hmacSha256.convert(secretBodyInBytes);
-    final auth = "${PusherEnv.API_KEY}:$signature";
+    final auth = "${pusherEnv.API_KEY}:$signature";
     final res = {
       "auth": auth,
       "channel_data": userData,
@@ -103,9 +107,9 @@ class PusherChannels {
     });
     final bodyMd5 = md5.convert(utf8.encode(params));
     final secretBody =
-        "POST\n/apps/${PusherEnv.APP_ID}/events\nauth_key=${PusherEnv.API_KEY}&"
-        "auth_timestamp=${PusherEnv.TIMESTAMP}&auth_version=${PusherEnv.AUTH_VERSION}&body_md5=$bodyMd5";
-    final secretkey = utf8.encode(PusherEnv.SECRET);
+        "POST\n/apps/${pusherEnv.APP_ID}/events\nauth_key=${pusherEnv.API_KEY}&"
+        "auth_timestamp=${pusherEnv.TIMESTAMP}&auth_version=${pusherEnv.AUTH_VERSION}&body_md5=$bodyMd5";
+    final secretkey = utf8.encode(pusherEnv.SECRET);
     final secretBodyInBytes = utf8.encode(secretBody);
     final hmacSha256 = Hmac(sha256, secretkey);
     final signature = hmacSha256.convert(secretBodyInBytes);
@@ -113,9 +117,9 @@ class PusherChannels {
       "Content-Type": "application/json",
     };
     final path =
-        "https://api-${PusherEnv.API_CLUSTER}.pusher.com/apps/${PusherEnv.APP_ID}"
-        "/events?auth_key=${PusherEnv.API_KEY}&auth_timestamp=${PusherEnv.TIMESTAMP}"
-        "&auth_version=${PusherEnv.AUTH_VERSION}&body_md5=$bodyMd5&auth_signature=$signature";
+        "https://api-${pusherEnv.API_CLUSTER}.pusher.com/apps/${pusherEnv.APP_ID}"
+        "/events?auth_key=${pusherEnv.API_KEY}&auth_timestamp=${pusherEnv.TIMESTAMP}"
+        "&auth_version=${pusherEnv.AUTH_VERSION}&body_md5=$bodyMd5&auth_signature=$signature";
     final res = await http.post(
       Uri.parse(path),
       headers: headers,
