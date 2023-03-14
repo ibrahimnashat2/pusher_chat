@@ -15,19 +15,6 @@ import 'core/isar/isar.dart';
 
 class PusherChat {
   static late final Isaar _isaar;
-
-  static final ChatLocalDataSource localDataSource = ChatLocalDataSourceImpl(
-    isaar: IsaarImpl()
-      ..openObject(
-        schemas: [
-          ChatMessageModelSchema,
-          ChatRoomModelSchema,
-          HistoryModelSchema,
-        ],
-        name: 'chatting_database',
-      ),
-  );
-
   static Future<void> init() async {
     configureDependencies();
     _isaar = getIt<Isaar>();
@@ -40,6 +27,24 @@ class PusherChat {
       name: 'chatting_database',
     );
   }
+
+  static Future<void> clear() async {
+    await _isaar.clear();
+  }
+}
+
+class PusherChatFCMBackground {
+  static final ChatLocalDataSource localDataSource = ChatLocalDataSourceImpl(
+    isaar: IsaarImpl()
+      ..openObject(
+        schemas: [
+          ChatMessageModelSchema,
+          ChatRoomModelSchema,
+          HistoryModelSchema,
+        ],
+        name: 'chatting_database',
+      ),
+  );
 
   static Future<void> onRecieveMessage({
     required ChatMessageModel message,
@@ -102,9 +107,5 @@ class PusherChat {
       type: message.type,
       roomId: message.roomId,
     );
-  }
-
-  static Future<void> clear() async {
-    await _isaar.clear();
   }
 }
