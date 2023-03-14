@@ -34,9 +34,9 @@ class PusherChat {
 }
 
 class PusherChatFCMBackground {
-  static late final ChatLocalDataSource localDataSource;
+  late final ChatLocalDataSource localDataSource;
 
-  static Future<void> init() async {
+  Future<void> init() async {
     final isaar = IsaarImpl();
     try {
       await isaar.openObject(
@@ -53,7 +53,7 @@ class PusherChatFCMBackground {
     );
   }
 
-  static Future<void> onRecieveMessage({
+  Future<void> onRecieveMessage({
     required ChatMessageModel message,
     required Function onMeRepliedBeforeDo,
   }) async {
@@ -61,7 +61,7 @@ class PusherChatFCMBackground {
     await _saveMessage(message);
   }
 
-  static Future<void> _saveOrUpdateRoom(
+  Future<void> _saveOrUpdateRoom(
     ChatMessage message,
     Function onMeRepliedBeforeDo,
   ) async {
@@ -106,7 +106,7 @@ class PusherChatFCMBackground {
     );
   }
 
-  static Future<void> _saveMessage(ChatMessageModel message) async {
+  Future<void> _saveMessage(ChatMessageModel message) async {
     await localDataSource.saveMessage(
       message: message.message,
       sender: message.sender,
