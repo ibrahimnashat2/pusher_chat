@@ -77,24 +77,21 @@ class PusherChatFCMBackground {
     String senderName = '';
     String lastUpdated = DateTime.now().toIso8601String();
     ChatUser user = message.sender;
+    bool iAmRepliedInRoomOrNoReplay = false;
     if (index != -1) {
       ChatRoomModel room = rooms.elementAt(index);
       final history = await localDataSource.getHistory();
       final indx = history.indexWhere(
         (item) => item.roomId == message.roomId && item.userId == user.id,
       );
-      final iAmRepliedInRoom = indx != -1;
-      kPrint('iAmRepliedInRoom $iAmRepliedInRoom');
+      iAmRepliedInRoomOrNoReplay =
+          (room.lastCustomerService?.isEmpty ?? false) || indx != -1;
+      kPrint('iAmRepliedInRoom $iAmRepliedInRoomOrNoReplay');
 
       ///[if no customer service replied]
-      if ((room.lastCustomerService?.isEmpty ?? false) || iAmRepliedInRoom) {
+      if (iAmRepliedInRoomOrNoReplay) {
         unReadCount++;
         unReadCount += room.unReadCount;
-        try {
-          onMeRepliedBeforeDo();
-        } catch (e) {
-          kPrint(e);
-        }
       } else {
         unReadCount = 0;
       }
@@ -115,6 +112,9 @@ class PusherChatFCMBackground {
       lastCustomerService: senderName,
       unReadCount: unReadCount,
     );
+    if (iAmRepliedInRoomOrNoReplay) {
+      onMeRepliedBeforeDo();
+    }
   }
 
   Future<void> _saveMessage(ChatMessageModel message) async {
