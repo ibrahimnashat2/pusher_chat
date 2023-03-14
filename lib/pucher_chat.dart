@@ -17,7 +17,15 @@ class PusherChat {
   static late final Isaar _isaar;
 
   static final ChatLocalDataSource localDataSource = ChatLocalDataSourceImpl(
-    isaar: IsaarImpl(),
+    isaar: IsaarImpl()
+      ..openObject(
+        schemas: [
+          ChatMessageModelSchema,
+          ChatRoomModelSchema,
+          HistoryModelSchema,
+        ],
+        name: 'chatting_database',
+      ),
   );
 
   static Future<void> init() async {
