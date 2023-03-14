@@ -8,10 +8,10 @@ abstract class ExceptionHandler {
 }
 
 @LazySingleton(as: ExceptionHandler)
-class ExeptionHandlerImpl implements ExceptionHandler {
+class ExceptionHandlerImpl implements ExceptionHandler {
   final NetworkInfo network;
 
-  ExeptionHandlerImpl({required this.network});
+  ExceptionHandlerImpl({required this.network});
   @override
   Future<T> call<T>({required Function method}) async {
     if (await network.isConnected) {

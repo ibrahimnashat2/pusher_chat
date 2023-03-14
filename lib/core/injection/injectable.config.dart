@@ -84,7 +84,7 @@ extension GetItInjectableX on _i1.GetIt {
           pusherEnv: gh<_i12.PusherEnv>(),
         ));
     gh.lazySingleton<_i13.ExceptionHandler>(
-        () => _i13.ExeptionHandlerImpl(network: gh<_i8.NetworkInfo>()));
+        () => _i13.ExceptionHandlerImpl(network: gh<_i8.NetworkInfo>()));
     gh.lazySingleton<_i14.PusherChannels>(() => _i14.PusherChannels(
           pusher: gh<_i10.PusherChannelsFlutter>(),
           pusherEnv: gh<_i12.PusherEnv>(),

@@ -29,12 +29,16 @@ class PusherChat {
 
   static Future<void> onRecieveMessage({
     required ChatMessageModel message,
+    required Function onMeRepliedBeforeDo,
   }) async {
-    await _saveOrUpdateRoom(message);
+    await _saveOrUpdateRoom(message, onMeRepliedBeforeDo);
     await _saveMessage(message);
   }
 
-  static Future<void> _saveOrUpdateRoom(ChatMessage message) async {
+  static Future<void> _saveOrUpdateRoom(
+    ChatMessage message,
+    Function onMeRepliedBeforeDo,
+  ) async {
     final rooms = await localDataSource.getAllRooms();
     final index = rooms.indexWhere((item) => item.roomId == message.roomId);
     int unReadCount = 0;
@@ -53,6 +57,7 @@ class PusherChat {
       if ((room.lastCustomerService?.isEmpty ?? false) || iAmRepliedInRoom) {
         unReadCount++;
         unReadCount += room.unReadCount;
+        onMeRepliedBeforeDo();
       } else {
         unReadCount = 0;
       }
