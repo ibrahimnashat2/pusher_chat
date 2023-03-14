@@ -83,7 +83,7 @@ class MTextFiled extends StatelessWidget {
           keyboardType: keyboardType,
           maxLines: maxLines,
           obscureText: obscureText,
-          cursorColor: Coolors.primaryColor,
+          cursorColor: Coolors.secondColor,
           cursorHeight: _textSize,
           style: TextStyle(
             fontSize: _textSize,
@@ -94,12 +94,13 @@ class MTextFiled extends StatelessWidget {
           decoration: InputDecoration(
             focusedBorder: hintText == null
                 ? border?.copyWith(
-                    borderSide: const BorderSide(color: Coolors.primaryColor),
+                    borderSide: const BorderSide(color: Coolors.secondColor),
                   )
                 : border,
             labelStyle: TextStyle(
               fontSize: _textSize,
               fontFamily: fontFamily,
+              color: textColor,
             ),
             border: border,
             enabledBorder: border,
