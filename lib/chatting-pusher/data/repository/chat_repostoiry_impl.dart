@@ -111,10 +111,14 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<Either<Failure, Unit>> onListenPusher({
     required Function(PusherEvent) onEvent,
     required Function() onConnected,
+    required Function() onDisconnecting,
+    required Function() onDisconnected,
   }) async {
     return await handler<Unit>(method: () async {
       return await remoteDataSource.onListenPusher(
         onEvent: onEvent,
+        onDisconnected: onDisconnected,
+        onDisconnecting: onDisconnecting,
         onConnected: onConnected,
       );
     });

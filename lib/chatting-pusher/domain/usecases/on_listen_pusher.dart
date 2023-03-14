@@ -13,10 +13,14 @@ class OnListenPusher {
   Future<Either<Failure, Unit>> onListenPusher({
     required Function(PusherEvent) onEvent,
     required Function() onConnected,
+    required Function() onDisconnecting,
+    required Function() onDisconnected,
   }) async {
     return await chatRepository.onListenPusher(
       onEvent: onEvent,
       onConnected: onConnected,
+      onDisconnected: onDisconnected,
+      onDisconnecting: onDisconnecting,
     );
   }
 }

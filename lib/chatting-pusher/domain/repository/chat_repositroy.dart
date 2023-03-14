@@ -17,6 +17,8 @@ abstract class ChatRepository {
   Future<Either<Failure, Unit>> onListenPusher({
     required Function(PusherEvent) onEvent,
     required Function() onConnected,
+    required Function() onDisconnecting,
+    required Function() onDisconnected,
   });
 
   Future<Either<Failure, ChatRoom>> saveRoom({

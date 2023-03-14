@@ -41,6 +41,8 @@ abstract class ChatRemoteDataSource {
   Future<Unit> onListenPusher({
     required Function(PusherEvent) onEvent,
     required Function() onConnected,
+    required Function() onDisconnecting,
+    required Function() onDisconnected,
   });
 }
 
@@ -108,11 +110,15 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
   Future<Unit> onListenPusher({
     required Function(PusherEvent) onEvent,
     required Function() onConnected,
+    required Function() onDisconnecting,
+    required Function() onDisconnected,
   }) async {
     return await handler<Unit>(method: () async {
       await pusherChannels.init(
         onEvent: onEvent,
         onConnected: onConnected,
+        onDisconnected: onDisconnected,
+        onDisconnecting: onDisconnecting,
       );
       pusherChannels.subscribe(
         channel: pusherEnv.CHANNEL_NAME,

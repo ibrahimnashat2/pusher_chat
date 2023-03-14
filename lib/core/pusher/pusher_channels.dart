@@ -21,6 +21,8 @@ class PusherChannels {
   String socketId = '';
   Future<void> init({
     required Function() onConnected,
+    required Function() onDisconnecting,
+    required Function() onDisconnected,
     required Function(PusherEvent) onEvent,
   }) async {
     await pusher.init(
@@ -35,7 +37,11 @@ class PusherChannels {
         if (currentState == 'CONNECTED') {
           socketId = await getSocketId();
           kPrint(socketId);
-          await Future.delayed(const Duration(seconds: 2), onConnected);
+          onConnected();
+        } else if (currentState == 'DISCONNECTED') {
+          onDisconnecting();
+        } else if (currentState == 'DISCONNECTING') {
+          onDisconnected();
         }
       },
       onEvent: (event) {
