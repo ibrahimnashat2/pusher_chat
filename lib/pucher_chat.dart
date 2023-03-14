@@ -90,7 +90,11 @@ class PusherChatFCMBackground {
       if ((room.lastCustomerService?.isEmpty ?? false) || iAmRepliedInRoom) {
         unReadCount++;
         unReadCount += room.unReadCount;
-        onMeRepliedBeforeDo();
+        try {
+          onMeRepliedBeforeDo();
+        } catch (e) {
+          kPrint(e);
+        }
       } else {
         unReadCount = 0;
       }
