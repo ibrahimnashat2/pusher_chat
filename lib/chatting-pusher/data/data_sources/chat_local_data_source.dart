@@ -4,6 +4,7 @@ import 'package:isar/isar.dart';
 import 'package:pusher_chat/chatting-pusher/data/models/history_model.dart';
 
 import '../../../../core/errors/exeption_handler.dart';
+import '../../../core/errors/exceptions.dart';
 import '../../../core/isar/isar.dart';
 import '../../domain/entities/chat_user.dart';
 import '../models/chat_message_model.dart';
@@ -44,10 +45,8 @@ abstract class ChatLocalDataSource {
 @LazySingleton(as: ChatLocalDataSource)
 class ChatLocalDataSourceImpl implements ChatLocalDataSource {
   final Isaar isaar;
-  final ExceptionHandler handler;
 
   ChatLocalDataSourceImpl({
-    required this.handler,
     required this.isaar,
   });
 
@@ -153,5 +152,13 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
       );
       return unit;
     });
+  }
+
+  Future<T> handler<T>({required Future<T> Function() method}) async {
+    try {
+      return await method();
+    } catch (e) {
+      throw CachedException();
+    }
   }
 }

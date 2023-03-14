@@ -91,7 +91,6 @@ extension GetItInjectableX on _i1.GetIt {
         ));
     gh.lazySingleton<_i15.ChatLocalDataSource>(
         () => _i15.ChatLocalDataSourceImpl(
-              handler: gh<_i13.ExceptionHandler>(),
               isaar: gh<_i5.Isaar>(),
             ));
     gh.lazySingleton<_i16.ChatRemoteDataSource>(

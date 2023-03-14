@@ -17,9 +17,6 @@ class PusherChat {
   static late final Isaar _isaar;
 
   static final ChatLocalDataSource localDataSource = ChatLocalDataSourceImpl(
-    handler: ExceptionHandlerImpl(
-      network: NetworkInfoImpl(InternetConnectionChecker()),
-    ),
     isaar: IsaarImpl(),
   );
 
