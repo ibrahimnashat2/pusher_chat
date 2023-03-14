@@ -82,13 +82,17 @@ class PusherChannels {
     required String event,
     required Map<String, dynamic> data,
   }) async {
-    await pusher.trigger(
-      PusherEvent(
-        channelName: channel,
-        eventName: event,
-        data: jsonEncode(data),
-      ),
-    );
+    try {
+      await pusher.trigger(
+        PusherEvent(
+          channelName: channel,
+          eventName: event,
+          data: jsonEncode(data),
+        ),
+      );
+    } catch (e) {
+      kPrint(e);
+    }
   }
 
   Future<void> unsubscribe({required String channel}) async {
