@@ -155,10 +155,11 @@ class ChatLocalDataSourceImpl implements ChatLocalDataSource {
   }
 
   Future<T> handler<T>({required Future<T> Function() method}) async {
-    try {
-      return await method();
-    } catch (e) {
-      throw CachedException();
-    }
+    // try {
+
+    // } catch (e) {
+    //   throw CachedException();
+    // }
+    return await method();
   }
 }
