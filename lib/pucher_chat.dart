@@ -1,5 +1,9 @@
 library pusher_chat;
 
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:pusher_chat/core/errors/exeption_handler.dart';
+import 'package:pusher_chat/core/network_info.dart';
+
 import 'chatting-pusher/data/data_sources/chat_local_data_source.dart';
 import 'chatting-pusher/data/models/chat_message_model.dart';
 import 'chatting-pusher/data/models/chat_room_model.dart';
@@ -12,11 +16,16 @@ import 'core/isar/isar.dart';
 class PusherChat {
   static late final Isaar _isaar;
 
-  static late final ChatLocalDataSource localDataSource;
+  static final ChatLocalDataSource localDataSource = ChatLocalDataSourceImpl(
+    handler: ExceptionHandlerImpl(
+      network: NetworkInfoImpl(InternetConnectionChecker()),
+    ),
+    isaar: IsaarImpl(),
+  );
+
   static Future<void> init() async {
     configureDependencies();
     _isaar = getIt<Isaar>();
-    localDataSource = getIt<ChatLocalDataSource>();
     await _isaar.openObject(
       schemas: [
         ChatMessageModelSchema,
