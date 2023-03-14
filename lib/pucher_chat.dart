@@ -36,20 +36,27 @@ class PusherChat {
 
 class PusherChatFCMBackground {
   late final ChatLocalDataSource localDataSource;
-  PusherChatFCMBackground() {
-    _init();
-  }
-  Future<void> _init() async {
-    final isaar = IsaarImpl();
-    await isaar.openObject(
-      schemas: [
-        ChatMessageModelSchema,
-        ChatRoomModelSchema,
-        HistoryModelSchema,
-      ],
-      name: 'chatting_database',
-    );
-    localDataSource = ChatLocalDataSourceImpl(isaar: isaar);
+  bool isInitialized = false;
+  Future<void> init() async {
+    if (!isInitialized) {
+      try {
+        final isaar = IsaarImpl();
+        await isaar.openObject(
+          schemas: [
+            ChatMessageModelSchema,
+            ChatRoomModelSchema,
+            HistoryModelSchema,
+          ],
+          name: 'chatting_database',
+        );
+        localDataSource = ChatLocalDataSourceImpl(
+          isaar: isaar,
+        );
+        isInitialized = true;
+      } catch (e) {
+        kPrint(e);
+      }
+    }
   }
 
   Future<void> onRecieveMessage({
