@@ -12,6 +12,7 @@ import 'chatting-pusher/domain/entities/chat_message.dart';
 import 'chatting-pusher/domain/entities/chat_user.dart';
 import 'core/injection/injectable.dart';
 import 'core/isar/isar.dart';
+import 'core/print.dart';
 
 class PusherChat {
   static late final Isaar _isaar;
@@ -35,22 +36,20 @@ class PusherChat {
 
 class PusherChatFCMBackground {
   late final ChatLocalDataSource localDataSource;
-
-  Future<void> init() async {
+  PusherChatFCMBackground() {
+    _init();
+  }
+  Future<void> _init() async {
     final isaar = IsaarImpl();
-    try {
-      await isaar.openObject(
-        schemas: [
-          ChatMessageModelSchema,
-          ChatRoomModelSchema,
-          HistoryModelSchema,
-        ],
-        name: 'chatting_database',
-      );
-    } catch (e) {}
-    localDataSource = ChatLocalDataSourceImpl(
-      isaar: isaar,
+    await isaar.openObject(
+      schemas: [
+        ChatMessageModelSchema,
+        ChatRoomModelSchema,
+        HistoryModelSchema,
+      ],
+      name: 'chatting_database',
     );
+    localDataSource = ChatLocalDataSourceImpl(isaar: isaar);
   }
 
   Future<void> onRecieveMessage({
@@ -78,6 +77,7 @@ class PusherChatFCMBackground {
         (item) => item.roomId == message.roomId && item.userId == user.id,
       );
       final iAmRepliedInRoom = indx != -1;
+      kPrint('iAmRepliedInRoom $iAmRepliedInRoom');
 
       ///[if no customer service replied]
       if ((room.lastCustomerService?.isEmpty ?? false) || iAmRepliedInRoom) {
