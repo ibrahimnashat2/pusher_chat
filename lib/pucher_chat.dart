@@ -38,14 +38,16 @@ class PusherChatFCMBackground {
 
   static Future<void> init() async {
     final isaar = IsaarImpl();
-    await isaar.openObject(
-      schemas: [
-        ChatMessageModelSchema,
-        ChatRoomModelSchema,
-        HistoryModelSchema,
-      ],
-      name: 'chatting_database',
-    );
+    try {
+      await isaar.openObject(
+        schemas: [
+          ChatMessageModelSchema,
+          ChatRoomModelSchema,
+          HistoryModelSchema,
+        ],
+        name: 'chatting_database',
+      );
+    } catch (e) {}
     localDataSource = ChatLocalDataSourceImpl(
       isaar: isaar,
     );
